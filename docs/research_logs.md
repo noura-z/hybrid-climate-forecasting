@@ -56,6 +56,222 @@ Observations:
 - The distribution appears highly right-skewed.
 - Precipitation is expected to be the most challenging forecasting target.
 
+# Exploratory Data Analysis
+
+## Overview
+
+An exploratory analysis was conducted to understand the temporal behavior, statistical properties, and forecasting potential of the selected climate variables:
+
+* temperature_c
+* humidity_pct
+* sea_level_pressure_hpa
+* wind_speed_ms
+* precipitation_mm
+
+The analysis included visualization, correlation analysis, stationarity testing, temporal dependence analysis, frequency-domain analysis, wavelet decomposition, and outlier inspection.
+
+---
+
+## Time-Series Analysis
+
+Visual inspection revealed clear seasonal and temporal structures within the climate variables.
+
+### Temperature
+
+* Strong annual seasonality was observed.
+* Summer periods exhibited higher temperatures while winter periods showed lower values.
+* No major long-term trend was detected.
+
+### Humidity
+
+* High variability was observed.
+* Humidity generally remained between 60% and 100%.
+* Seasonal behavior appeared inversely related to temperature.
+
+### Sea-Level Pressure
+
+* Pressure exhibited smooth long-term evolution.
+* Higher values generally occurred during winter periods.
+
+### Wind Speed
+
+* Wind speed showed moderate variability.
+* No strong annual seasonal pattern was observed.
+
+### Precipitation
+
+* Rainfall was highly sparse and event-driven.
+* Approximately 13.2% of observations contained precipitation.
+
+---
+
+## Correlation Analysis
+
+The correlation matrix highlighted several physically meaningful relationships.
+
+Key observations:
+
+* Temperature and dew point showed strong positive correlation.
+* Temperature and humidity showed strong negative correlation.
+* Temperature and pressure exhibited moderate negative correlation.
+* Humidity and wind speed exhibited moderate negative correlation.
+* Station pressure and sea-level pressure were nearly perfectly correlated, indicating redundancy.
+
+Precipitation displayed weak linear correlations with most variables, suggesting a more complex and nonlinear behavior.
+
+---
+
+## Stationarity Analysis
+
+Stationarity was assessed using both Augmented Dickey-Fuller (ADF) and KPSS tests.
+
+### Findings
+
+* Sea-level pressure and precipitation satisfied both stationarity criteria.
+* Temperature, humidity, and wind speed showed disagreement between ADF and KPSS, suggesting seasonal effects rather than random-walk behavior.
+* No variable exhibited characteristics of a pure random walk process.
+
+---
+
+## Temporal Dependence Analysis
+
+Autocorrelation Function (ACF) and Partial Autocorrelation Function (PACF) were used to examine temporal memory.
+
+### Temperature
+
+* Strong persistence across multiple lags.
+* Clear cyclical behavior associated with daily atmospheric processes.
+
+### Humidity
+
+* Significant temporal dependence and periodic structure.
+* Similar behavior to temperature.
+
+### Sea-Level Pressure
+
+* Strong long-memory behavior.
+* Slow decay of autocorrelation.
+
+### Wind Speed
+
+* Moderate persistence.
+* Combination of structured and stochastic behavior.
+
+### Precipitation
+
+* Weak temporal dependence.
+* Event-driven dynamics with limited persistence.
+
+These findings support the use of autoregressive forecasting models.
+
+---
+
+## Fourier Transform Analysis
+
+FFT was applied to identify dominant periodicities.
+
+### Findings
+
+Temperature:
+
+* Strong 24-hour cycle.
+* Significant harmonics at approximately 12 and 8 hours.
+
+Humidity:
+
+* Similar dominant frequencies to temperature.
+
+Sea-Level Pressure:
+
+* Dominated by low-frequency components.
+* Slow atmospheric evolution.
+
+Wind Speed:
+
+* Weaker daily periodicity.
+
+Precipitation:
+
+* No dominant periodic structure.
+* Largely event-driven behavior.
+
+FFT confirmed the existence of strong daily cycles in temperature and humidity while highlighting the irregular nature of precipitation.
+
+---
+
+## Wavelet Analysis
+
+A level-5 Discrete Wavelet Transform (DWT) was applied to analyze climate signals at multiple temporal scales.
+
+Approximate scales:
+
+| Component | Time Scale  |
+| --------- | ----------- |
+| D1        | 3–6 hours   |
+| D2        | 6–12 hours  |
+| D3        | 12–24 hours |
+| D4        | 24–48 hours |
+| D5        | 48–96 hours |
+| A5        | >96 hours   |
+
+### Findings
+
+Temperature:
+
+* Long-term seasonal behavior concentrated in A5.
+* Daily-scale dynamics primarily captured in D3.
+
+Humidity:
+
+* Similar decomposition structure to temperature.
+
+Sea-Level Pressure:
+
+* Dominated by low-frequency behavior.
+* Most information concentrated in A5.
+
+Wind Speed:
+
+* Energy distributed across both low and high-frequency components.
+
+Precipitation:
+
+* Sparse and localized events.
+* Wavelet decomposition clearly highlighted the intermittent nature of rainfall.
+
+Wavelet decomposition provided a multi-scale representation of climate dynamics and complemented the FFT analysis.
+
+---
+
+## Outlier Analysis
+
+Boxplot analysis was conducted for all forecast targets.
+
+Findings:
+
+* Temperature extremes corresponded to realistic heat-wave events.
+* Low humidity observations were physically plausible.
+* Pressure extremes reflected strong atmospheric systems.
+* Wind speed extremes were consistent with strong wind events.
+* Extreme precipitation values likely represented genuine storm events.
+
+No observations were removed since all detected outliers were considered meteorologically plausible.
+
+---
+
+## EDA Conclusion
+
+The dataset exhibits:
+
+* Strong temporal dependence.
+* Clear seasonal and daily cycles.
+* Physically meaningful inter-variable relationships.
+* Multi-scale climate dynamics.
+* Forecastable structure suitable for time-series modeling.
+
+The analysis supports the use of a hybrid forecasting framework combining statistical and deep learning approaches.
+
+
 # 3. Stationarity and Temporal Dependence
 
 ## 3.1 ADF and KPSS Tests
